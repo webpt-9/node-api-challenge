@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../../data/helpers/projectModel.js');
-const actionDb = require('../../data/helpers/actionModel.js');
-const middleware = require('../middleware.js');
+const db = require('../data/helpers/projectModel.js');
+const actionDb = require('../data/helpers/actionModel.js');
+const middleware = require('./middleware.js');
 
 router.get('/', (req, res) => {
 	db
@@ -30,6 +30,7 @@ router.post('/', middleware.validateProject, (req, res) => {
 		});
 });
 
+// todo come back and add this post to the action router
 router.post('/:id/actions', middleware.validateProjectId, middleware.validateAction, (req, res) => {
 	const actionInfo = { ...req.body, project_id: req.params.id };
 
@@ -64,7 +65,7 @@ router.put('/:id', middleware.validateProjectId, middleware.validateProject, (re
 			res.status(201).json({ message: `record update successful ` });
 		})
 		.catch((err) => {
-			res.status(500).json({ error: 'there was an error updated the project', err });
+			res.status(500).json({ error: 'there was an error updating the project', err });
 		});
 });
 
